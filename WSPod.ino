@@ -13,7 +13,6 @@ void loop()
 {
   state.runState();
   delay(1);
-
 }
 
 void requestEvent()

@@ -7,7 +7,7 @@ HX711 _scale;
 const int READING_INTERVAL = 1000;
 
 // Define calibration parameters.
-const float THRESHOLD_DIFFERENCE = 0.15;
+const float THRESHOLD_DIFFERENCE = 0.20;
 const float THRESHOLD_PERCENT = 0.05;
 const int CHANGE_STEPS = 5;
 const int CALIBRATION_FACTOR = -10550.0;
@@ -28,6 +28,8 @@ void ScaleWrapper::init(int pin_dout, int pin_clk)
 void ScaleWrapper::tare() 
 {
   _scale.tare();
+  // Ensure the system sees no change after initialising.
+  _display_weight = _current_weight = _scale.get_units();
 }
 
 bool ScaleWrapper::isReady()

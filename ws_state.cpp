@@ -70,9 +70,9 @@ void WsState::runState()
     case INIT_UUID:
       led.setColour(0, 0, 255);
       Serial.println("init uuid");
-      //if (eeprom.hasUuid()) {
+      if (eeprom.hasUuid()) {
       // **** Forcing getting a UUID from the API.
-      if (false) {
+      //if (false) {
         Serial.println("has uuid");
         _uuid = eeprom.getUuid();
         _state = STABLE;
