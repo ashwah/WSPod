@@ -3,8 +3,8 @@
 
 #include <Wire.h>
 
-const int MIN_ADDRESS = 10;
-const int MAX_ADDRESS = 12;
+const int MIN_ADDRESS = 20;
+const int MAX_ADDRESS = 24;
 
 const int RETRY_INTERVAL = 5000;
 
@@ -16,32 +16,31 @@ void I2c::init(void (*requestEvent)(), void (*receiveEvent)(int))
   Wire.onReceive(receiveEvent);
 }
 
+int I2c::getAddress() {
+  return _address;
+}
+
 bool I2c::setAddress() 
 {
-  if (((int) millis() - _timer) > RETRY_INTERVAL) {
-    Wire.begin();
-    int nDevices = 0;
-    for (byte address = MIN_ADDRESS; address <= MAX_ADDRESS; ++address) {
-      
-      // The i2c_scanner uses the return value of
-      // the Write.endTransmisstion to see if
-      // a device did acknowledge to the address.
-      Wire.beginTransmission(address);
-      byte error = Wire.endTransmission();
-      if ((error != 0) && (error != 4)) {
-        Serial.println("Got one");  
-        _address = address;
-        Wire.begin(_address);
-        
-        _timer = millis();
-        return true;
-      }
-    } 
-    _timer = millis();
-    Serial.println("Didn't get one");
-  }
+  Wire.begin();
+  int nDevices = 0;
+  for (byte address = MIN_ADDRESS; address <= MAX_ADDRESS; ++address) {
+    delay(100);
+
+    // The i2c_scanner uses the return value of
+    // the Write.endTransmisstion to see if
+    // a device did acknowledge to the address.
+    Wire.beginTransmission(address);
+    byte error = Wire.endTransmission();
+    Serial.print("Error : ");Serial.println(error);  
+    if ((error != 0) && (error != 4)) {
+      Wire.begin(address);
+      _address = address;
+      return true;
+    }
+  } 
+  Serial.println("Didn't get one");
   return false;
- 
 }
 
 bool I2c::checkAddressUnique() 

@@ -51,7 +51,7 @@ void WsState::runState()
       break;
 
     case INIT_I2C:
-      led.blinkColour(0, 255, 255);  // blue+green
+      led.setColour(0, 255, 255);  // blue+green
       if (i2c.setAddress()) {
         _state = WAIT_I2C;
       }
@@ -70,11 +70,11 @@ void WsState::runState()
     case INIT_UUID:
       led.setColour(0, 0, 255);
       Serial.println("init uuid");
+      //eeprom.deleteUuid();
       if (eeprom.hasUuid()) {
-      // **** Forcing getting a UUID from the API.
-      //if (false) {
-        Serial.println("has uuid");
+        Serial.print("has uuid : ");        
         _uuid = eeprom.getUuid();
+        Serial.print(_uuid);
         _state = STABLE;
       }
       else {
@@ -134,6 +134,8 @@ void WsState::runState()
 
     case SENDING:
       led.setColour(255, 0, 255); // Purple
+      // TODO temp
+      //this->wait(2000, STABLE);
       // This state is exited via the receive event interrupt.
       break;
 

@@ -76,7 +76,8 @@ bool ScaleWrapper::isChanging()
     _timer = millis();
     if (_scale.is_ready()) {
       _current_weight = _scale.get_units();
-      Serial.print("Changing reading: ");Serial.println(_current_weight);
+      float reading = _scale.read();
+      Serial.print("Changing reading: ");Serial.print(_current_weight);Serial.print(" : ");Serial.println(reading);
     } 
     else {
       Serial.println("HX711 not found.");
@@ -127,6 +128,10 @@ bool ScaleWrapper::isError()
 
 bool ScaleWrapper::significantChange(float w1, float w2)
 {
+  Serial.print("SigCHange : ");
+  Serial.print(w1);
+  Serial.print(" vs ");
+  Serial.println(w2);
   float difference;
   float percent_change;
 

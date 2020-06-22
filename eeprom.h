@@ -11,6 +11,7 @@ class Eeprom
     String getUuid();
     bool hasUuid();
     void setUuid(String uuid);
+    void deleteUuid();
 
   private:
 //    unsigned int _timer = 0;

@@ -43,3 +43,12 @@ bool Eeprom::hasUuid()
     return true;
   }
 }
+
+
+void Eeprom::deleteUuid()
+{
+  for (int i = 0; i < UUID_LENGTH; i++)
+  {
+    EEPROM.write(i, 0);
+  }
+} 

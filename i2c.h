@@ -12,6 +12,7 @@ class I2c
     void init(void (*requestEvent)(), void (*receiveEvent)(int));
     bool setAddress(); 
     bool checkAddressUnique();
+    int getAddress();
 
   private:
     unsigned int _timer = -30000;
